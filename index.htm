@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>GeoJSON to Google Maps</title>
+	<style type="text/css">
+		#left{
+			width: 500px;
+			height: 500px;
+			float:left;
+		}
+		#right{
+			width: 200px;
+			height: 500px;
+			float:left;
+			padding: 10px;
+		}
+		#right div{
+			margin-bottom: 8px;
+		}
+		#map{
+			height:100%;
+		}
+		
+	</style>
+	
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="GeoJSON.js"></script>
+	<script type="text/javascript">
+		var map;
+		currentFeature = null;
+		var road = {
+			"type":"LineString",
+			"coordinates":[
+				[-80.661983228058659,35.042968081213758],
+				[-80.662076494242413,35.042749414542243],
+				[-80.662196794397431,35.042626481357232],
+				[-80.664238981504525,35.041175532632963]
+			]
+		};
+		var roadStyle = {
+			strokeColor:'#FFFF00',
+			strokeWeight:7,
+			strokeOpacity: 0.75
+		};
+		var address = {
+			"type":"Point",
+			"coordinates":[-80.66252, 35.04267]
+		};
+		var addressStyle = {
+			icon: 'img/marker-house.png'
+		};
+		var parcel = {
+			"type":"Polygon",
+			"coordinates": [
+				[
+					[-80.662120612605904,35.042875219905184],
+					[-80.662141716053014,35.042832740965068],
+					[-80.662171938563816,35.042789546962993],
+					[-80.662209174653029,35.042750233165179],
+					[-80.662250709107454,35.042716920859959],
+					[-80.662627586829899,35.043072078075667],
+					[-80.662595574310288,35.043162322407341],
+					[-80.662142312824884,35.043015448098977],
+					[-80.66214539632351,35.042970839922489],
+					[-80.662117972448982,35.042908385949438],
+					[-80.662120612605904,35.042875219905184]
+				]
+			]
+		};
+		var parcelStyle = {
+			strokeColor: "#FF7800",
+			strokeOpacity: 1,
+			strokeWeight: 2,
+			fillColor: "#46461F",
+			fillOpacity: 0.25
+		};
+		var twoParcelsAsOne = {
+			"type":"MultiPolygon",
+			"coordinates": [
+				[
+					[
+						[-80.661917125299155,35.042245264120233],
+						[-80.662257428469147,35.042566288770765],
+						[-80.662116500253873,35.042670715828088],
+						[-80.661715367137106,35.042389935257198],
+						[-80.661917125299155,35.042245264120233]
+					]
+				],[
+					[
+						[-80.661547137566686,35.042510563404129],
+						[-80.661677171806787,35.042417322902836],
+						[-80.662084018102888,35.042702102858307],
+						[-80.662039854197829,35.042756211162953],
+						[-80.662002555672572,35.042820528162387],
+						[-80.661457640151127,35.042647387136952],
+						[-80.661547137566686,35.042510563404129]
+					]
+				]
+			]
+		};
+		function init(){
+			map = new google.maps.Map(document.getElementById('map'),{
+				zoom: 17,
+				center: new google.maps.LatLng(35.042248, -80.662319),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+		}
+		function clearMap(){
+			if (currentFeature)
+				currentFeature.setMap(null);
+		}
+		function showFeature(geojson, style){
+			clearMap();
+			currentFeature = new GeoJSON(geojson, style ? style : null);
+			currentFeature.setMap(map)
+		}
+	</script>
+</head>
+<body onload="init();">
+	<div id="left">
+		<div id="map"></div>
+	</div>
+	<div id="right">
+		<div><input type="button" value="Simple Marker (GeoJSON Point)" onclick="showFeature(address);" /></div>
+		<div><input type="button" value="Styled Marker (GeoJSON Point)" onclick="showFeature(address,addressStyle);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="Simple Polyline (GeoJSON LineString)" onclick="showFeature(road);" /></div>
+		<div><input type="button" value="Styled Polyline (GeoJSON LineString)" onclick="showFeature(road,roadStyle);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="Simple Polygon (GeoJSON Polygon)" onclick="showFeature(parcel);" /></div>
+		<div><input type="button" value="Styled Polygon (GeoJSON Polygon)" onclick="showFeature(parcel,parcelStyle);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="Simple Polygon (GeoJSON MultiPolygon)" onclick="showFeature(twoParcelsAsOne);" /></div>
+		<div><input type="button" value="Styled Polygon (GeoJSON MultiPolygon)" onclick="showFeature(twoParcelsAsOne,parcelStyle);" /></div>
+	</div>
+</body>
+</html>
