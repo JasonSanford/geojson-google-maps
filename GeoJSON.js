@@ -13,7 +13,7 @@
  * GeoJSON
  * @constructor
  * @param {Object} geojson
- *		A valid GeoJSON object. See spec at http://geojson.org
+ *		A valid GeoJSON geometry object. See spec at http://geojson.org
  *		Samples:
  *			{ "type": "Point", "coordinates": [-80.66252, 35.04267] }
  *			{ "type": "LineString", "coordinates": [ [-80.661983228058659, 35.042968081213758],	[-80.662076494242413, 35.042749414542243],	[-80.662196794397431, 35.042626481357232], [-80.664238981504525, 35.041175532632963] ] }
@@ -34,6 +34,7 @@ var GeoJSON = function(geojson,options){
 			opts.position = new google.maps.LatLng(geojson.coordinates[1],geojson.coordinates[0]);
 			obj = new google.maps.Marker(opts);
 			break;
+			
 		case "LineString":
 			var opts = options || {};
 			var path = [];
@@ -45,6 +46,7 @@ var GeoJSON = function(geojson,options){
 			opts.path = path;
 			obj = new google.maps.Polyline(opts);
 			break;
+			
 		case "Polygon":
 			var opts = options || {};
 			var paths = [];
@@ -59,6 +61,7 @@ var GeoJSON = function(geojson,options){
 			opts.paths = paths;
 			obj = new google.maps.Polygon(opts);
 			break;
+			
 		case "MultiPolygon":
 			var opts = options || {};
 			var paths = [];
