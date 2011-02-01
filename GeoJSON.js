@@ -104,36 +104,10 @@ var GeoJSON = function( geojson, options ){
 			}
 			break;
 		
-		case "Point":
-			if (!geojson.coordinates){
-				obj = this._error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
-			}else{
-				obj = _geometryToGoogleMaps(geojson, opts);
-			}
-			break;
-			
-		case "LineString":
-			if (!geojson.coordinates){
-				obj = _error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
-			}else{
-				obj = _geometryToGoogleMaps(geojson, opts);
-			}
-			break;
-			
-		case "Polygon":
-			if (!geojson.coordinates){
-				obj = _error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
-			}else{
-				obj = _geometryToGoogleMaps(geojson, opts);
-			}
-			break;
-		
-		case "MultiPolygon":
-			if (!geojson.coordinates){
-				obj = _error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
-			}else{
-				obj = _geometryToGoogleMaps(geojson, opts);
-			}
+		case "Point": case "LineString": case "Polygon": case "MultiPolygon":
+			obj = geojson.coordinates
+				? obj = _geometryToGoogleMaps(geojson, opts)
+				: _error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
 			break;
 		
 		default:
