@@ -17,6 +17,10 @@
 		#right div{
 			margin-bottom: 8px;
 		}
+		#right textarea{
+			height: 150px;
+			width: 300px;
+		}
 		#map{
 			height:100%;
 		}
@@ -27,31 +31,39 @@
 	<script type="text/javascript" src="GeoJSON.js"></script>
 	<script type="text/javascript">
 		var map;
-		currentFeature = null;
-		var road = {
-			"type":"LineString",
-			"coordinates":[
-				[-80.661983228058659,35.042968081213758],
-				[-80.662076494242413,35.042749414542243],
-				[-80.662196794397431,35.042626481357232],
-				[-80.664238981504525,35.041175532632963]
+		currentFeature_or_Features = null;
+		
+		var geojson_Point = {
+			type: "Point",
+			coordinates: [-80.66252, 35.04267]
+		};
+		
+		var geojson_GeometryCollection = {
+			type: "GeometryCollection",
+			geometriess: [
+				{
+					type: "Point",
+					coordinates: [-80.66256, 35.04271]
+				},{
+					type: "Point",
+					coordinates: [-80.66248, 35.04263]
+				}
 			]
 		};
-		var roadStyle = {
-			strokeColor:'#FFFF00',
-			strokeWeight:7,
-			strokeOpacity: 0.75
+		
+		var geojson_LineString = {
+			type: "LineString",
+			coordinates: [
+				[-80.661983228058659, 35.042968081213758],
+				[-80.662076494242413, 35.042749414542243],
+				[-80.662196794397431, 35.042626481357232],
+				[-80.664238981504525, 35.041175532632963]
+			]
 		};
-		var address = {
-			"type":"Point",
-			"coordinates":[-80.66252, 35.04267]
-		};
-		var addressStyle = {
-			icon: 'img/marker-house.png'
-		};
-		var parcel = {
-			"type":"Polygon",
-			"coordinates": [
+		
+		var geojson_Polygon = {
+			type: "Polygon",
+			coordinates: [
 				[
 					[-80.662120612605904,35.042875219905184],
 					[-80.662141716053014,35.042832740965068],
@@ -67,16 +79,10 @@
 				]
 			]
 		};
-		var parcelStyle = {
-			strokeColor: "#FF7800",
-			strokeOpacity: 1,
-			strokeWeight: 2,
-			fillColor: "#46461F",
-			fillOpacity: 0.25
-		};
-		var twoParcelsAsOne = {
-			"type":"MultiPolygon",
-			"coordinates": [
+		
+		var geojson_MultiPolygon = {
+			type: "MultiPolygon",
+			coordinates: [
 				[
 					[
 						[-80.661917125299155,35.042245264120233],
@@ -98,6 +104,25 @@
 				]
 			]
 		};
+		
+		var roadStyle = {
+			strokeColor: "#FFFF00",
+			strokeWeight: 7,
+			strokeOpacity: 0.75
+		};
+		
+		var addressStyle = {
+			icon: "img/marker-house.png"
+		};
+		
+		var parcelStyle = {
+			strokeColor: "#FF7800",
+			strokeOpacity: 1,
+			strokeWeight: 2,
+			fillColor: "#46461F",
+			fillOpacity: 0.25
+		};
+		
 		function init(){
 			map = new google.maps.Map(document.getElementById('map'),{
 				zoom: 17,
@@ -106,13 +131,32 @@
 			});
 		}
 		function clearMap(){
-			if (currentFeature)
-				currentFeature.setMap(null);
+			if (!currentFeature_or_Features)
+				return;
+			if (currentFeature_or_Features.length){
+				for (var i = 0; i < currentFeature_or_Features.length; i++){
+					currentFeature_or_Features[i].setMap(null);
+				}
+			}else{
+				currentFeature_or_Features.setMap(null);
+			}
 		}
 		function showFeature(geojson, style){
 			clearMap();
-			currentFeature = new GeoJSON(geojson, style ? style : null);
-			currentFeature.setMap(map)
+			currentFeature_or_Features = new GeoJSON(geojson, style || null);
+			if (currentFeature_or_Features.type && currentFeature_or_Features.type == "Error"){
+				document.getElementById("put_geojson_string_here").value = currentFeature_or_Features.message;
+				return;
+			}
+			if (currentFeature_or_Features.length){
+				for (var i = 0; i < currentFeature_or_Features.length; i++){
+					currentFeature_or_Features[i].setMap(map);
+				}
+			}else{
+				currentFeature_or_Features.setMap(map)
+			}
+			
+			document.getElementById("put_geojson_string_here").value = JSON.stringify(geojson);
 		}
 	</script>
 </head>
@@ -121,17 +165,21 @@
 		<div id="map"></div>
 	</div>
 	<div id="right">
-		<div><input type="button" value="Simple Marker (GeoJSON Point)" onclick="showFeature(address);" /></div>
-		<div><input type="button" value="Styled Marker (GeoJSON Point)" onclick="showFeature(address,addressStyle);" /></div>
+		<div><input type="button" value="Simple Marker (GeoJSON Point)" onclick="showFeature(geojson_Point);" /></div>
+		<div><input type="button" value="Styled Marker (GeoJSON Point)" onclick="showFeature(geojson_Point,addressStyle);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polyline (GeoJSON LineString)" onclick="showFeature(road);" /></div>
-		<div><input type="button" value="Styled Polyline (GeoJSON LineString)" onclick="showFeature(road,roadStyle);" /></div>
+		<div><input type="button" value="Multiple Markers (GeoJSON GeometryCollection)" onclick="showFeature(geojson_GeometryCollection);" /></div>
+		<div><input type="button" value="Multiple Styled Markers (GeoJSON GeometryCollection)" onclick="showFeature(geojson_GeometryCollection,addressStyle);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polygon (GeoJSON Polygon)" onclick="showFeature(parcel);" /></div>
-		<div><input type="button" value="Styled Polygon (GeoJSON Polygon)" onclick="showFeature(parcel,parcelStyle);" /></div>
+		<div><input type="button" value="Simple Polyline (GeoJSON LineString)" onclick="showFeature(geojson_LineString);" /></div>
+		<div><input type="button" value="Styled Polyline (GeoJSON LineString)" onclick="showFeature(geojson_LineString,roadStyle);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polygon (GeoJSON MultiPolygon)" onclick="showFeature(twoParcelsAsOne);" /></div>
-		<div><input type="button" value="Styled Polygon (GeoJSON MultiPolygon)" onclick="showFeature(twoParcelsAsOne,parcelStyle);" /></div>
+		<div><input type="button" value="Simple Polygon (GeoJSON Polygon)" onclick="showFeature(geojson_Polygon);" /></div>
+		<div><input type="button" value="Styled Polygon (GeoJSON Polygon)" onclick="showFeature(geojson_Polygon,parcelStyle);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="Simple Polygon (GeoJSON MultiPolygon)" onclick="showFeature(geojson_MultiPolygon);" /></div>
+		<div><input type="button" value="Styled Polygon (GeoJSON MultiPolygon)" onclick="showFeature(geojson_MultiPolygon,parcelStyle);" /></div>
+		<textarea id="put_geojson_string_here"></textarea>
 	</div>
 </body>
 </html>
