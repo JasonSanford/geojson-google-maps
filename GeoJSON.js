@@ -10,6 +10,14 @@ var GeoJSON = function( geojson, options ){
 				googleObj = new google.maps.Marker(opts);
 				break;
 				
+			case "MultiPoint":
+				googleObj = [];
+				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
+					opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
+					googleObj.push(new google.maps.Marker(opts));
+				}
+				break;
+				
 			case "LineString":
 				var path = [];
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
@@ -19,6 +27,20 @@ var GeoJSON = function( geojson, options ){
 				}
 				opts.path = path;
 				googleObj = new google.maps.Polyline(opts);
+				break;
+				
+			case "MultiLineString":
+				googleObj = [];
+				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
+					var path = [];
+					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
+						var coord = geojsonGeometry.coordinates[i][j];
+						var ll = new google.maps.LatLng(coord[1], coord[0]);
+						path.push(ll);
+					}
+					opts.path = path;
+					googleObj.push(new google.maps.Polyline(opts));
+				}
 				break;
 				
 			case "Polygon":
@@ -104,7 +126,7 @@ var GeoJSON = function( geojson, options ){
 			}
 			break;
 		
-		case "Point": case "LineString": case "Polygon": case "MultiPolygon":
+		case "Point": case "MultiPoint": case "LineString": case "MultiLineString": case "Polygon": case "MultiPolygon":
 			obj = geojson.coordinates
 				? obj = _geometryToGoogleMaps(geojson, opts)
 				: _error("Invalid GeoJSON object: Geometry object missing \"coordinates\" member.");
