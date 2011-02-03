@@ -40,13 +40,74 @@
 		
 		var geojson_GeometryCollection = {
 			type: "GeometryCollection",
-			geometriess: [
+			geometries: [
 				{
 					type: "Point",
 					coordinates: [-80.66256, 35.04271]
 				},{
-					type: "Point",
-					coordinates: [-80.66248, 35.04263]
+					type: "LineString",
+					coordinates: [
+						[-80.661983228058659, 35.042968081213758],
+						[-80.662076494242413, 35.042749414542243],
+						[-80.662196794397431, 35.042626481357232],
+						[-80.664238981504525, 35.041175532632963]
+					]
+				}
+			]
+		};
+		
+		var geojson_FeatureCollection = {
+			"type": "FeatureCollection",
+			"features": [
+				{
+					"type": "Feature",
+					"properties": {
+						"object_type": "Parcel",
+						"sq_ft": 43000
+					},
+					"geometry": {
+						type: "Polygon",
+						coordinates: [
+							[
+								[-80.662120612605904, 35.042875219905184],
+								[-80.662141716053014, 35.042832740965068],
+								[-80.662171938563816, 35.042789546962993],
+								[-80.662209174653029, 35.042750233165179],
+								[-80.662250709107454, 35.042716920859959],
+								[-80.662627586829899, 35.043072078075667],
+								[-80.662595574310288, 35.043162322407341],
+								[-80.662142312824884, 35.043015448098977],
+								[-80.662145396323511, 35.042970839922489],
+								[-80.662117972448982, 35.042908385949438],
+								[-80.662120612605904, 35.042875219905184]
+							]
+						]
+					}
+				},{
+					"type": "Feature",
+					"properties": {
+						"object_type": "Road",
+						"name": "Fairfield Rd."
+					},
+					"geometry": {
+						type: "LineString",
+						coordinates: [
+							[-80.661983228058659, 35.042968081213758],
+							[-80.662076494242413, 35.042749414542243],
+							[-80.662196794397431, 35.042626481357232],
+							[-80.664238981504525, 35.041175532632963]
+						]
+					}
+				},{
+					"type": "Feature",
+					"properties": {
+						"object_type": "Address",
+						"display": "2314 Fairfield Rd."
+					},
+					"geometry": {
+						type: "Point",
+						coordinates: [-80.66252, 35.04267]
+					}
 				}
 			]
 		};
@@ -65,17 +126,17 @@
 			type: "Polygon",
 			coordinates: [
 				[
-					[-80.662120612605904,35.042875219905184],
-					[-80.662141716053014,35.042832740965068],
-					[-80.662171938563816,35.042789546962993],
-					[-80.662209174653029,35.042750233165179],
-					[-80.662250709107454,35.042716920859959],
-					[-80.662627586829899,35.043072078075667],
-					[-80.662595574310288,35.043162322407341],
-					[-80.662142312824884,35.043015448098977],
-					[-80.66214539632351,35.042970839922489],
-					[-80.662117972448982,35.042908385949438],
-					[-80.662120612605904,35.042875219905184]
+					[-80.662120612605904, 35.042875219905184],
+					[-80.662141716053014, 35.042832740965068],
+					[-80.662171938563816, 35.042789546962993],
+					[-80.662209174653029, 35.042750233165179],
+					[-80.662250709107454, 35.042716920859959],
+					[-80.662627586829899, 35.043072078075667],
+					[-80.662595574310288, 35.043162322407341],
+					[-80.662142312824884, 35.043015448098977],
+					[-80.662145396323511, 35.042970839922489],
+					[-80.662117972448982, 35.042908385949438],
+					[-80.662120612605904, 35.042875219905184]
 				]
 			]
 		};
@@ -85,21 +146,21 @@
 			coordinates: [
 				[
 					[
-						[-80.661917125299155,35.042245264120233],
-						[-80.662257428469147,35.042566288770765],
-						[-80.662116500253873,35.042670715828088],
-						[-80.661715367137106,35.042389935257198],
-						[-80.661917125299155,35.042245264120233]
+						[-80.661917125299155, 35.042245264120233],
+						[-80.662257428469147, 35.042566288770765],
+						[-80.662116500253873, 35.042670715828088],
+						[-80.661715367137106, 35.042389935257198],
+						[-80.661917125299155, 35.042245264120233]
 					]
 				],[
 					[
-						[-80.661547137566686,35.042510563404129],
-						[-80.661677171806787,35.042417322902836],
-						[-80.662084018102888,35.042702102858307],
-						[-80.662039854197829,35.042756211162953],
-						[-80.662002555672572,35.042820528162387],
-						[-80.661457640151127,35.042647387136952],
-						[-80.661547137566686,35.042510563404129]
+						[-80.661547137566686, 35.042510563404129],
+						[-80.661677171806787, 35.042417322902836],
+						[-80.662084018102888, 35.042702102858307],
+						[-80.662039854197829, 35.042756211162953],
+						[-80.662002555672572, 35.042820528162387],
+						[-80.661457640151127, 35.042647387136952],
+						[-80.661547137566686, 35.042510563404129]
 					]
 				]
 			]
@@ -165,20 +226,17 @@
 		<div id="map"></div>
 	</div>
 	<div id="right">
-		<div><input type="button" value="Simple Marker (GeoJSON Point)" onclick="showFeature(geojson_Point);" /></div>
-		<div><input type="button" value="Styled Marker (GeoJSON Point)" onclick="showFeature(geojson_Point,addressStyle);" /></div>
+		<div><input type="button" value="GeoJSON Point" onclick="showFeature(geojson_Point);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Multiple Markers (GeoJSON GeometryCollection)" onclick="showFeature(geojson_GeometryCollection);" /></div>
-		<div><input type="button" value="Multiple Styled Markers (GeoJSON GeometryCollection)" onclick="showFeature(geojson_GeometryCollection,addressStyle);" /></div>
+		<div><input type="button" value="GeoJSON LineString" onclick="showFeature(geojson_LineString);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polyline (GeoJSON LineString)" onclick="showFeature(geojson_LineString);" /></div>
-		<div><input type="button" value="Styled Polyline (GeoJSON LineString)" onclick="showFeature(geojson_LineString,roadStyle);" /></div>
+		<div><input type="button" value="GeoJSON Polygon" onclick="showFeature(geojson_Polygon);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polygon (GeoJSON Polygon)" onclick="showFeature(geojson_Polygon);" /></div>
-		<div><input type="button" value="Styled Polygon (GeoJSON Polygon)" onclick="showFeature(geojson_Polygon,parcelStyle);" /></div>
+		<div><input type="button" value="GeoJSON MultiPolygon" onclick="showFeature(geojson_MultiPolygon);" /></div>
 		<div><br /></div>
-		<div><input type="button" value="Simple Polygon (GeoJSON MultiPolygon)" onclick="showFeature(geojson_MultiPolygon);" /></div>
-		<div><input type="button" value="Styled Polygon (GeoJSON MultiPolygon)" onclick="showFeature(geojson_MultiPolygon,parcelStyle);" /></div>
+		<div><input type="button" value="GeoJSON GeometryCollection" onclick="showFeature(geojson_GeometryCollection);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="GeoJSON FeatureCollection" onclick="showFeature(geojson_FeatureCollection);" /></div>
 		<textarea id="put_geojson_string_here"></textarea>
 	</div>
 </body>

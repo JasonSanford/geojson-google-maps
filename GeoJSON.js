@@ -80,7 +80,7 @@ var GeoJSON = function( geojson, options ){
 			}else{
 				obj = [];
 				for (var i = 0; i < geojson.features.length; i++){
-					obj.push(_geometryToGoogleMaps(geojson.features[i], opts));
+					obj.push(_geometryToGoogleMaps(geojson.features[i].geometry, opts));
 				}
 			}
 			break;
