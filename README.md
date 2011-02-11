@@ -7,7 +7,7 @@ GeoJSON is used to create Google Maps API v3 vectors (Marker, Polyline, Polygon)
 
 #### Constructor Parameters
 @param {Object} geojson
-A valid GeoJSON object. One of Point, LineString, Polygon, MultiPolygon, Feature, GeometryCollection, FeatureCollection. See the official spec at http://geojson.org. GeoJSON examples below.
+A valid GeoJSON object. One of Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, Feature, GeometryCollection, FeatureCollection. See the official spec at http://geojson.org. GeoJSON examples below.
 		
 @param? {Object} options - Optional
 Options for the specific type of Google Maps vector (Marker, Polyline, Polygon). If none specified, boring black vectors and red markers will be created - Optional. Samples Below.
@@ -57,7 +57,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 				[-80.662627586829899, 35.043072078075667],
 				[-80.662595574310288, 35.043162322407341],
 				[-80.662142312824884, 35.043015448098977],
-				[-80.66214539632351, 35.042970839922489],
+				[-80.662145396323511, 35.042970839922489],
 				[-80.662117972448982, 35.042908385949438],
 				[-80.662120612605904, 35.042875219905184]
 			]
@@ -141,4 +141,20 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 	
 	{
 		"icon": "img/marker-house.png"
+	}
+
+#### Error Handling (Invalid GeoJSON)
+
+I've made an attempt to check for properly formatted GeoJSON. If something doesn't look quite right I return a very simple error object.
+	{
+		"error": true,
+		"message": "Invalid GeoJSON object: Feature object missing \"properties\" or \"geometry\" member."
+	}
+It would be in your best interest to first check the returned object to see if it's error free.
+	var myGoogleVector = new GeoJSON(myGeoJSON, options);
+	
+	if (myGoogleVector.error){
+		// Handle the error.
+	}else{
+		myGoogleVector.setMap(myMap);
 	}
