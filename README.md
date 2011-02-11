@@ -3,7 +3,7 @@
 ### Jason Sanford
 
 #### Overview
-GeoJSON is used to create Google Maps API v3 vectors (Marker, Polyline, Polygon) from GeoJSON objects (Point, LineString, Polygon, MultiPolygon, Feature, GeometryCollection, FeatureCollection).
+GeoJSON is used to create Google Maps API v3 vectors (Marker, Polyline, Polygon) from GeoJSON objects (Point, LineString, Polygon, MultiPolygon, Feature, GeometryCollection, FeatureCollection). Specifically, I'm translating some GeoJSON types to arrays of Google Maps vectors as there aren't really Google Maps equivalents of MultiPoint, MultiLineString, etc.
 
 #### Constructor Parameters
 @param {Object} geojson
@@ -11,6 +11,12 @@ A valid GeoJSON object. One of Point, LineString, Polygon, MultiPolygon, Feature
 		
 @param? {Object} options - Optional
 Options for the specific type of Google Maps vector (Marker, Polyline, Polygon). If none specified, boring black vectors and red markers will be created - Optional. Samples Below.
+
+#### GeoJSON -> Google Maps equivalents
+<table>
+<tr><th>GeoJSON Type</th>th>Output</th></tr>
+<tr><td>Point</td><td>google.maps.Point</td></tr>
+</table>
 
 #### GeoJSON Examples
 	{
