@@ -14,8 +14,16 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 
 #### GeoJSON -> Google Maps equivalents
 <table>
-<tr><th>GeoJSON Type</th>th>Output</th></tr>
+<tr><th>GeoJSON Type</th><th>Output</th></tr>
 <tr><td>Point</td><td>google.maps.Point</td></tr>
+<tr><td>LineString</td><td>google.maps.Polyline</td></tr>
+<tr><td>Polygon</td><td>google.maps.Polygon</td></tr>
+<tr><td>MultiPoint</td><td>Array of google.maps.Point</td></tr>
+<tr><td>MultiLineString</td><td>Array of google.maps.Polyline</td></tr>
+<tr><td>MultiPolygon</td><td>google.maps.Polygon</td></tr>
+<tr><td>Feature</td><td>google.maps.[Point,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
+<tr><td>FeatureCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
+<tr><td>GeometryCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on geometry type)</td></tr>
 </table>
 
 #### GeoJSON Examples
