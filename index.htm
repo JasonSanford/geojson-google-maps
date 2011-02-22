@@ -15,7 +15,7 @@
 			padding: 10px;
 		}
 		#right div{
-			margin-bottom: 8px;
+			margin-bottom: 4px;
 		}
 		#right textarea{
 			height: 150px;
@@ -34,21 +34,21 @@
 		currentFeature_or_Features = null;
 		
 		var geojson_Point = {
-			type: "Point",
-			coordinates: [-80.66252, 35.04267]
+			"type": "Point",
+			"coordinates": [-80.66252, 35.04267]
 		};
 		
 		var geojson_MultiPoint = {
-			type: "MultiPoint",
-			coordinates: [
+			"type": "MultiPoint",
+			"coordinates": [
 				[-80.66252, 35.04267],
 				[-80.66240, 35.04255]
 			]
 		};
 		
 		var geojson_LineString = {
-			type: "LineString",
-			coordinates: [
+			"type": "LineString",
+			"coordinates": [
 				[-80.661983228058659, 35.042968081213758],
 				[-80.662076494242413, 35.042749414542243],
 				[-80.662196794397431, 35.042626481357232],
@@ -57,8 +57,8 @@
 		};
 
 		var geojson_MultiLineString = {
-			type: "MultiLineString",
-			coordinates: [
+			"type": "MultiLineString",
+			"coordinates": [
 				[
 					[-80.661983228058659, 35.042968081213758],
 					[-80.662076494242413, 35.042749414542243],
@@ -76,8 +76,8 @@
 		};
 		
 		var geojson_Polygon = {
-			type: "Polygon",
-			coordinates: [
+			"type": "Polygon",
+			"coordinates": [
 				[
 					[-80.662120612605904, 35.042875219905184],
 					[-80.662141716053014, 35.042832740965068],
@@ -95,8 +95,8 @@
 		};
 		
 		var geojson_MultiPolygon = {
-			type: "MultiPolygon",
-			coordinates: [
+			"type": "MultiPolygon",
+			"coordinates": [
 				[
 					[
 						[-80.661917125299155, 35.042245264120233],
@@ -120,14 +120,14 @@
 		};
 		
 		var geojson_GeometryCollection = {
-			type: "GeometryCollection",
+			"type": "GeometryCollection",
 			geometries: [
 				{
-					type: "Point",
-					coordinates: [-80.66256, 35.04271]
+					"type": "Point",
+					"coordinates": [-80.66256, 35.04271]
 				},{
-					type: "LineString",
-					coordinates: [
+					"type": "LineString",
+					"coordinates": [
 						[-80.661983228058659, 35.042968081213758],
 						[-80.662076494242413, 35.042749414542243],
 						[-80.662196794397431, 35.042626481357232],
@@ -144,8 +144,8 @@
 				"name": "Fairfield Rd."
 			},
 			"geometry": {
-				type: "LineString",
-				coordinates: [
+				"type": "LineString",
+				"coordinates": [
 					[-80.661983228058659, 35.042968081213758],
 					[-80.662076494242413, 35.042749414542243],
 					[-80.662196794397431, 35.042626481357232],
@@ -164,8 +164,8 @@
 						"sq_ft": 43000
 					},
 					"geometry": {
-						type: "Polygon",
-						coordinates: [
+						"type": "Polygon",
+						"coordinates": [
 							[
 								[-80.662120612605904, 35.042875219905184],
 								[-80.662141716053014, 35.042832740965068],
@@ -188,8 +188,8 @@
 						"name": "Fairfield Rd."
 					},
 					"geometry": {
-						type: "LineString",
-						coordinates: [
+						"type": "LineString",
+						"coordinates": [
 							[-80.661983228058659, 35.042968081213758],
 							[-80.662076494242413, 35.042749414542243],
 							[-80.662196794397431, 35.042626481357232],
@@ -203,8 +203,8 @@
 						"display": "2314 Fairfield Rd."
 					},
 					"geometry": {
-						type: "Point",
-						coordinates: [-80.66252, 35.04267]
+						"type": "Point",
+						"coordinates": [-80.66252, 35.04267]
 					}
 				}
 			]
@@ -263,6 +263,17 @@
 			
 			document.getElementById("put_geojson_string_here").value = JSON.stringify(geojson);
 		}
+		function rawGeoJSON(){
+			clearMap();
+			currentFeature_or_Features = new GeoJSON(JSON.parse(document.getElementById("put_geojson_string_here").value));
+			if (currentFeature_or_Features.length){
+				for (var i = 0; i < currentFeature_or_Features.length; i++){
+					currentFeature_or_Features[i].setMap(map);
+				}
+			}else{
+				currentFeature_or_Features.setMap(map);
+			}
+		}
 	</script>
 </head>
 <body onload="init();">
@@ -288,6 +299,7 @@
 		<div><br /></div>
 		<div><input type="button" value="GeoJSON FeatureCollection" onclick="showFeature(geojson_FeatureCollection);" /></div>
 		<textarea id="put_geojson_string_here"></textarea>
+		<div><input type="button" value="Show GeoJSON above" onclick="rawGeoJSON();" /></div>
 	</div>
 </body>
 </html>

@@ -58,8 +58,9 @@ var GeoJSON = function( geojson, options ){
 				break;
 				
 			case "MultiPolygon":
-				var paths = [];
+				googleObj = [];
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
+					var paths = [];
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
 						var path = [];
 						for (var k = 0; k < geojsonGeometry.coordinates[i][j].length; k++){
@@ -68,9 +69,9 @@ var GeoJSON = function( geojson, options ){
 						}
 						paths.push(path);
 					}
+					opts.paths = paths;
+					googleObj.push(new google.maps.Polygon(opts));
 				}
-				opts.paths = paths;
-				googleObj = new google.maps.Polygon(opts);
 				break;
 				
 			default:
