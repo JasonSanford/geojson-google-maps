@@ -27,6 +27,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 </table>
 
 #### GeoJSON Examples
+	// GeoJSON Point
 	{
 		"type": "Point",
 		"coordinates": [
@@ -35,6 +36,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 		]
 	}
 	
+	// GeoJSON LineString
 	{
 		"type": "LineString",
 		"coordinates": [
@@ -45,6 +47,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 		]
 	}
 	
+	// GeoJSON Polygon
 	{
 		"type": "Polygon",
 		"coordinates": [
@@ -64,17 +67,16 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 		]
 	}
 	
+	// GeoJSON Feature
 	{
 		"type": "Feature",
 		"id": 9876,
 		"geometry": {
-			{
-				"type": "Point",
-				"coordinates": [
-					-80.66252,
-					35.04267
-				]
-			}
+			"type": "Point",
+			"coordinates": [
+				-80.66252,
+				35.04267
+			]
 		},
 		"properties": {
 			"condition": "Satisfactory",
@@ -83,6 +85,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 		}
 	}
 	
+	// GeoJSON FeatureCollection
 	{
 		"type": "FeatureCollection",
 		"features": [
@@ -90,13 +93,11 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 				"type": "Feature",
 				"id": 9876,
 				"geometry": {
-					{
-						"type": "Point",
-						"coordinates": [
-							-80.66252,
-							35.04267
-						]
-					}
+					"type": "Point",
+					"coordinates": [
+						-80.66252,
+						35.04267
+					]
 				},
 				"properties": {
 					"condition": "Satisfactory",
@@ -107,13 +108,11 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 				"type": "Feature",
 				"id": 9875,
 				"geometry": {
-					{
-						"type": "Point",
-						"coordinates": [
-							-80.66262,
-							35.04277
-						]
-					}
+					"type": "Point",
+					"coordinates": [
+						-80.66262,
+						35.04277
+					]
 				},
 				"properties": {
 					"condition": "Excellent",
