@@ -80,7 +80,7 @@ var GeoJSON = function( geojson, options ){
 		
 		return googleObj;
 		
-	}
+	};
 	
 	var _error = function( message ){
 	
@@ -89,7 +89,7 @@ var GeoJSON = function( geojson, options ){
 			message: message
 		};
 	
-	}
+	};
 	
 	var obj;
 	
