@@ -124,12 +124,14 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 	}
 
 #### Sample Google Maps Vector Options
+	// google.maps.Polyline
 	{
 		"strokeColor": "#FFFF00",
 		"strokeWeight": 7,
 		"strokeOpacity": 0.75
 	}
 	
+	// google.maps.Polygon
 	{
 		"strokeColor": "#FF7800",
 		"strokeOpacity": 1,
@@ -138,6 +140,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 		"fillOpacity": 0.25
 	}
 	
+	// google.maps.Marker
 	{
 		"icon": "img/marker-house.png"
 	}
