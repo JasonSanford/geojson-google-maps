@@ -145,11 +145,14 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 #### Error Handling (Invalid GeoJSON)
 
 I've made an attempt to check for properly formatted GeoJSON. If something doesn't look quite right I return a very simple error object.
+
 	{
 		"error": true,
 		"message": "Invalid GeoJSON object: Feature object missing \"properties\" or \"geometry\" member."
 	}
+
 It would be in your best interest to first check the returned object to see if it's error free.
+	
 	var myGoogleVector = new GeoJSON(myGeoJSON, options);
 	
 	if (myGoogleVector.error){
