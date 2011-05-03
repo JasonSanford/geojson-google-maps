@@ -121,7 +121,7 @@
 		
 		var geojson_GeometryCollection = {
 			"type": "GeometryCollection",
-			geometries: [
+			"geometries": [
 				{
 					"type": "Point",
 					"coordinates": [-80.66256, 35.04271]
@@ -150,6 +150,30 @@
 					[-80.662076494242413, 35.042749414542243],
 					[-80.662196794397431, 35.042626481357232],
 					[-80.664238981504525, 35.041175532632963]
+				]
+			}
+		};
+		
+		var geojson_Feature_GeometryCollection = {
+			"type": "Feature",
+			"properties": {
+				"name": "Fountainbrook Rd."
+			},
+			"geometry": {
+				"type": "GeometryCollection",
+				"geometries": [
+					{
+						"type": "Point",
+						"coordinates": [-80.66256, 35.04271]
+					},{
+						"type": "LineString",
+						"coordinates": [
+							[-80.661983228058659, 35.042968081213758],
+							[-80.662076494242413, 35.042749414542243],
+							[-80.662196794397431, 35.042626481357232],
+							[-80.664238981504525, 35.041175532632963]
+						]
+					}
 				]
 			}
 		};
@@ -296,6 +320,8 @@
 		<div><input type="button" value="GeoJSON GeometryCollection" onclick="showFeature(geojson_GeometryCollection);" /></div>
 		<div><br /></div>
 		<div><input type="button" value="GeoJSON Feature" onclick="showFeature(geojson_Feature);" /></div>
+		<div><br /></div>
+		<div><input type="button" value="GeoJSON Feature with GeometryCollection" onclick="showFeature(geojson_Feature_GeometryCollection);" /></div>
 		<div><br /></div>
 		<div><input type="button" value="GeoJSON FeatureCollection" onclick="showFeature(geojson_FeatureCollection);" /></div>
 		<textarea id="put_geojson_string_here"></textarea>

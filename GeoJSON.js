@@ -74,6 +74,17 @@ var GeoJSON = function( geojson, options ){
 				}
 				break;
 				
+			case "GeometryCollection":
+				googleObj = [];
+				if (!geojsonGeometry.geometries){
+					googleObj = _error("Invalid GeoJSON object: GeometryCollection object missing \"geometries\" member.");
+				}else{
+					for (var i = 0; i < geojsonGeometry.geometries.length; i++){
+						googleObj.push(_geometryToGoogleMaps(geojsonGeometry.geometries[i], opts));
+					}
+				}
+				break;
+				
 			default:
 				googleObj = _error("Invalid GeoJSON object: Geometry object must be one of \"Point\", \"LineString\", \"Polygon\" or \"MultiPolygon\".");
 		}
