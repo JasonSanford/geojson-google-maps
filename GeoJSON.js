@@ -1,6 +1,6 @@
 var GeoJSON = function( geojson, options ){
 
-	var _geometryToGoogleMaps = function( geojsonGeometry, opts ){
+	var _geometryToGoogleMaps = function( geojsonGeometry, opts, geojsonProperties ){
 		
 		var googleObj;
 		
@@ -8,6 +8,9 @@ var GeoJSON = function( geojson, options ){
 			case "Point":
 				opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
 				googleObj = new google.maps.Marker(opts);
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
+				}
 				break;
 				
 			case "MultiPoint":
@@ -15,6 +18,9 @@ var GeoJSON = function( geojson, options ){
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
 					googleObj.push(new google.maps.Marker(opts));
+				}
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
 				}
 				break;
 				
@@ -27,6 +33,9 @@ var GeoJSON = function( geojson, options ){
 				}
 				opts.path = path;
 				googleObj = new google.maps.Polyline(opts);
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
+				}
 				break;
 				
 			case "MultiLineString":
@@ -40,6 +49,9 @@ var GeoJSON = function( geojson, options ){
 					}
 					opts.path = path;
 					googleObj.push(new google.maps.Polyline(opts));
+				}
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
 				}
 				break;
 				
@@ -55,6 +67,9 @@ var GeoJSON = function( geojson, options ){
 				}
 				opts.paths = paths;
 				googleObj = new google.maps.Polygon(opts);
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
+				}
 				break;
 				
 			case "MultiPolygon":
@@ -72,6 +87,9 @@ var GeoJSON = function( geojson, options ){
 					opts.paths = paths;
 					googleObj.push(new google.maps.Polygon(opts));
 				}
+				if (geojsonProperties) {
+					_setProperties(googleObj, geojsonProperties);
+				}
 				break;
 				
 			case "GeometryCollection":
@@ -80,7 +98,7 @@ var GeoJSON = function( geojson, options ){
 					googleObj = _error("Invalid GeoJSON object: GeometryCollection object missing \"geometries\" member.");
 				}else{
 					for (var i = 0; i < geojsonGeometry.geometries.length; i++){
-						googleObj.push(_geometryToGoogleMaps(geojsonGeometry.geometries[i], opts));
+						googleObj.push(_geometryToGoogleMaps(geojsonGeometry.geometries[i], opts, geojsonProperties || null));
 					}
 				}
 				break;
@@ -102,6 +120,14 @@ var GeoJSON = function( geojson, options ){
 	
 	};
 	
+	var _setProperties = function( googleObj, geojsonProperties ) {
+		var properties = {};
+		for (var j in geojsonProperties){
+			properties[j] = geojsonProperties[j];
+		}
+		googleObj.set("geojsonProperties", properties);
+	}
+	
 	var obj;
 	
 	var opts = options || {};
@@ -114,7 +140,7 @@ var GeoJSON = function( geojson, options ){
 			}else{
 				obj = [];
 				for (var i = 0; i < geojson.features.length; i++){
-					obj.push(_geometryToGoogleMaps(geojson.features[i].geometry, opts));
+					obj.push(_geometryToGoogleMaps(geojson.features[i].geometry, opts, geojson.features[i].properties));
 				}
 			}
 			break;
@@ -134,7 +160,7 @@ var GeoJSON = function( geojson, options ){
 			if (!( geojson.properties && geojson.geometry )){
 				obj = _error("Invalid GeoJSON object: Feature object missing \"properties\" or \"geometry\" member.");
 			}else{
-				obj = _geometryToGoogleMaps(geojson.geometry, opts);
+				obj = _geometryToGoogleMaps(geojson.geometry, opts, geojson.properties);
 			}
 			break;
 		
