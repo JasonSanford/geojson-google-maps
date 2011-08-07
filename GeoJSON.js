@@ -9,7 +9,7 @@ var GeoJSON = function( geojson, options ){
 				opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
 				googleObj = new google.maps.Marker(opts);
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -20,7 +20,7 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Marker(opts));
 				}
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -34,7 +34,7 @@ var GeoJSON = function( geojson, options ){
 				opts.path = path;
 				googleObj = new google.maps.Polyline(opts);
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -51,7 +51,7 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Polyline(opts));
 				}
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -68,7 +68,7 @@ var GeoJSON = function( geojson, options ){
 				opts.paths = paths;
 				googleObj = new google.maps.Polygon(opts);
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -88,7 +88,7 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Polygon(opts));
 				}
 				if (geojsonProperties) {
-					_setProperties(googleObj, geojsonProperties);
+					googleObj.set("geojsonProperties", _setProperties(googleObj, geojsonProperties));
 				}
 				break;
 				
@@ -125,7 +125,7 @@ var GeoJSON = function( geojson, options ){
 		for (var j in geojsonProperties){
 			properties[j] = geojsonProperties[j];
 		}
-		googleObj.set("geojsonProperties", properties);
+		return properties;
 	}
 	
 	var obj;
