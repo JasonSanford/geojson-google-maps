@@ -20,7 +20,9 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Marker(opts));
 				}
 				if (geojsonProperties) {
-					googleObj.set("geojsonProperties", geojsonProperties);
+					for (var k = 0; k < googleObj.length; k++){
+						googleObj[k].set("geojsonProperties", geojsonProperties);
+					}
 				}
 				break;
 				
@@ -51,7 +53,9 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Polyline(opts));
 				}
 				if (geojsonProperties) {
-					googleObj.set("geojsonProperties", geojsonProperties);
+					for (var k = 0; k < googleObj.length; k++){
+						googleObj[k].set("geojsonProperties", geojsonProperties);
+					}
 				}
 				break;
 				
@@ -88,7 +92,9 @@ var GeoJSON = function( geojson, options ){
 					googleObj.push(new google.maps.Polygon(opts));
 				}
 				if (geojsonProperties) {
-					googleObj.set("geojsonProperties", geojsonProperties);
+					for (var k = 0; k < googleObj.length; k++){
+						googleObj[k].set("geojsonProperties", geojsonProperties);
+					}
 				}
 				break;
 				
