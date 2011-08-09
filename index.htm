@@ -24,6 +24,9 @@
 		#map{
 			height:100%;
 		}
+		#infoBox {
+			width:300px;
+		}
 		
 	</style>
 	
@@ -271,6 +274,9 @@
 			}else{
 				currentFeature_or_Features.setMap(null);
 			}
+			if (infowindow.getMap()){
+				infowindow.close();
+			}
 		}
 		function showFeature(geojson, style){
 			clearMap();
@@ -308,10 +314,11 @@
 		}
 		function setInfoWindow (feature) {
 			google.maps.event.addListener(feature, "click", function(event) {
-				var content = "<strong>GeoJSON Feature Properties</strong><br />";
+				var content = "<div id='infoBox'><strong>GeoJSON Feature Properties</strong><br />";
 				for (var j in this.geojsonProperties) {
 					content += j + ": " + this.geojsonProperties[j] + "<br />";
 				}
+				content += "</div>";
 				infowindow.setContent(content);
 				infowindow.position = event.latLng;
 				infowindow.open(map);
