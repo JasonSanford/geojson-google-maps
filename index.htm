@@ -24,6 +24,9 @@
 		#map{
 			height:100%;
 		}
+		#infoBox {
+			width:300px;
+		}
 		
 	</style>
 	
@@ -252,6 +255,8 @@
 			fillOpacity: 0.25
 		};
 		
+		var infowindow = new google.maps.InfoWindow();
+		
 		function init(){
 			map = new google.maps.Map(document.getElementById('map'),{
 				zoom: 17,
@@ -269,6 +274,9 @@
 			}else{
 				currentFeature_or_Features.setMap(null);
 			}
+			if (infowindow.getMap()){
+				infowindow.close();
+			}
 		}
 		function showFeature(geojson, style){
 			clearMap();
@@ -280,9 +288,15 @@
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
 					currentFeature_or_Features[i].setMap(map);
+					if (currentFeature_or_Features[i].geojsonProperties) {
+						setInfoWindow(currentFeature_or_Features[i]);
+					}
 				}
 			}else{
 				currentFeature_or_Features.setMap(map)
+				if (currentFeature_or_Features.geojsonProperties) {
+					setInfoWindow(currentFeature_or_Features);
+				}
 			}
 			
 			document.getElementById("put_geojson_string_here").value = JSON.stringify(geojson);
@@ -297,6 +311,18 @@
 			}else{
 				currentFeature_or_Features.setMap(map);
 			}
+		}
+		function setInfoWindow (feature) {
+			google.maps.event.addListener(feature, "click", function(event) {
+				var content = "<div id='infoBox'><strong>GeoJSON Feature Properties</strong><br />";
+				for (var j in this.geojsonProperties) {
+					content += j + ": " + this.geojsonProperties[j] + "<br />";
+				}
+				content += "</div>";
+				infowindow.setContent(content);
+				infowindow.position = event.latLng;
+				infowindow.open(map);
+			});
 		}
 	</script>
 </head>
