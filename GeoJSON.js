@@ -67,7 +67,11 @@ var GeoJSON = function( geojson, options ){
 						var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
 						path.push(ll);
 					}
-					paths.push(path);
+					if(!i){
+						paths.push(path);
+					}else{
+						paths.push(path.reverse());
+					}
 				}
 				opts.paths = paths;
 				googleObj = new google.maps.Polygon(opts);
@@ -86,7 +90,11 @@ var GeoJSON = function( geojson, options ){
 							var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
 							path.push(ll);
 						}
-						paths.push(path);
+						if(!j){
+							paths.push(path);
+						}else{
+							paths.push(path.reverse());
+						}
 					}
 					opts.paths = paths;
 					googleObj.push(new google.maps.Polygon(opts));
