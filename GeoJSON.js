@@ -65,7 +65,7 @@ var GeoJSON = function( geojson, options ){
 					var path = [];
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
 						var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
-						path.push(ll)
+						path.push(ll);
 					}
 					paths.push(path);
 				}
