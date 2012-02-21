@@ -61,6 +61,8 @@ var GeoJSON = function( geojson, options ){
 				
 			case "Polygon":
 				var paths = [];
+				var exteriorDirection;
+				var interiorDirection;
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					var path = [];
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
@@ -68,9 +70,21 @@ var GeoJSON = function( geojson, options ){
 						path.push(ll);
 					}
 					if(!i){
+						exteriorDirection = _ccw(path);
 						paths.push(path);
+					}else if(i == 1){
+						interiorDirection = _ccw(path);
+						if(exteriorDirection == interiorDirection){
+							paths.push(path.reverse());
+						}else{
+							paths.push(path);
+						}
 					}else{
-						paths.push(path.reverse());
+						if(exteriorDirection == interiorDirection){
+							paths.push(path.reverse());
+						}else{
+							paths.push(path);
+						}
 					}
 				}
 				opts.paths = paths;
@@ -84,6 +98,8 @@ var GeoJSON = function( geojson, options ){
 				googleObj = [];
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					var paths = [];
+					var exteriorDirection;
+					var interiorDirection;
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
 						var path = [];
 						for (var k = 0; k < geojsonGeometry.coordinates[i][j].length; k++){
@@ -91,9 +107,21 @@ var GeoJSON = function( geojson, options ){
 							path.push(ll);
 						}
 						if(!j){
+							exteriorDirection = _ccw(path);
 							paths.push(path);
+						}else if(j == 1){
+							interiorDirection = _ccw(path);
+							if(exteriorDirection == interiorDirection){
+								paths.push(path.reverse());
+							}else{
+								paths.push(path);
+							}
 						}else{
-							paths.push(path.reverse());
+							if(exteriorDirection == interiorDirection){
+								paths.push(path.reverse());
+							}else{
+								paths.push(path);
+							}
 						}
 					}
 					opts.paths = paths;
@@ -132,6 +160,22 @@ var GeoJSON = function( geojson, options ){
 			message: message
 		};
 	
+	};
+
+	var _ccw = function( path ){
+		var isCCW;
+		for (var i = 0; i < path.length-2; i++){
+			a = ((path[i+1].lat() - path[i].lat()) * (path[i+2].lng() - path[i].lng()) - (path[i+2].lat() - path[i].lat()) * (path[i+1].lng() - path[i].lng()));
+			if(a > 0){
+				isCCW = true;
+				break;
+			}
+			else if(a < 0){
+				isCCW = false;
+				break;
+			}
+		}
+		return isCCW;
 	};
 		
 	var obj;
