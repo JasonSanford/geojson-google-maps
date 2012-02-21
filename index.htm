@@ -321,7 +321,14 @@
 				return;
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
-					currentFeature_or_Features[i].setMap(null);
+					if(currentFeature_or_Features[i].length){
+						for(var j = 0; j < currentFeature_or_Features[i].length; j++){
+							currentFeature_or_Features[i][j].setMap(null);
+						}
+					}
+					else{
+						currentFeature_or_Features[i].setMap(null);
+					}
 				}
 			}else{
 				currentFeature_or_Features.setMap(null);
