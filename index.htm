@@ -158,6 +158,29 @@
 					"type": "Point",
 					"coordinates": [-80.66256, 35.04271]
 				},{
+					"type": "MultiPolygon",
+					"coordinates": [
+						[
+							[
+								[-80.661917125299155, 35.042245264120233],
+								[-80.662257428469147, 35.042566288770765],
+								[-80.662116500253873, 35.042670715828088],
+								[-80.661715367137106, 35.042389935257198],
+								[-80.661917125299155, 35.042245264120233]
+							]
+						],[
+							[
+								[-80.661547137566686, 35.042510563404129],
+								[-80.661677171806787, 35.042417322902836],
+								[-80.662084018102888, 35.042702102858307],
+								[-80.662039854197829, 35.042756211162953],
+								[-80.662002555672572, 35.042820528162387],
+								[-80.661457640151127, 35.042647387136952],
+								[-80.661547137566686, 35.042510563404129]
+							]
+						]
+					]
+				},{
 					"type": "LineString",
 					"coordinates": [
 						[-80.661983228058659, 35.042968081213758],
@@ -298,7 +321,14 @@
 				return;
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
-					currentFeature_or_Features[i].setMap(null);
+					if(currentFeature_or_Features[i].length){
+						for(var j = 0; j < currentFeature_or_Features[i].length; j++){
+							currentFeature_or_Features[i][j].setMap(null);
+						}
+					}
+					else{
+						currentFeature_or_Features[i].setMap(null);
+					}
 				}
 			}else{
 				currentFeature_or_Features.setMap(null);
@@ -316,7 +346,14 @@
 			}
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
-					currentFeature_or_Features[i].setMap(map);
+					if(currentFeature_or_Features[i].length){
+						for(var j = 0; j < currentFeature_or_Features[i].length; j++){
+							currentFeature_or_Features[i][j].setMap(map);
+						}
+					}
+					else{
+						currentFeature_or_Features[i].setMap(map);
+					}
 					if (currentFeature_or_Features[i].geojsonProperties) {
 						setInfoWindow(currentFeature_or_Features[i]);
 					}
