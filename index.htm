@@ -349,6 +349,9 @@
 					if(currentFeature_or_Features[i].length){
 						for(var j = 0; j < currentFeature_or_Features[i].length; j++){
 							currentFeature_or_Features[i][j].setMap(map);
+							if(currentFeature_or_Features[i][j].geojsonProperties) {
+								setInfoWindow(currentFeature_or_Features[i][j]);
+							}
 						}
 					}
 					else{
@@ -372,10 +375,26 @@
 			currentFeature_or_Features = new GeoJSON(JSON.parse(document.getElementById("put_geojson_string_here").value));
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
-					currentFeature_or_Features[i].setMap(map);
+					if(currentFeature_or_Features[i].length){
+						for(var j = 0; j < currentFeature_or_Features[i].length; j++){
+							currentFeature_or_Features[i][j].setMap(map);
+							if(currentFeature_or_Features[i][j].geojsonProperties) {
+								setInfoWindow(currentFeature_or_Features[i][j]);
+							}
+						}
+					}
+					else{
+						currentFeature_or_Features[i].setMap(map);
+					}
+					if (currentFeature_or_Features[i].geojsonProperties) {
+						setInfoWindow(currentFeature_or_Features[i]);
+					}
 				}
 			}else{
 				currentFeature_or_Features.setMap(map);
+				if (currentFeature_or_Features.geojsonProperties) {
+					setInfoWindow(currentFeature_or_Features);
+				}
 			}
 		}
 		function setInfoWindow (feature) {
