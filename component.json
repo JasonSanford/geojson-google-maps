@@ -7,6 +7,6 @@
     "node_modules",
     "components",
     "index.htm",
-    "img/*"
+    "img"
   ]
 }
