@@ -1,0 +1,12 @@
+{
+  "name": "geoJSON-to-Google-Maps",
+  "version": "1.0.0",
+  "main": "GeoJSON.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "index.htm",
+    "img"
+  ]
+}
