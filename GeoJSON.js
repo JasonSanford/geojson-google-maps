@@ -1,8 +1,8 @@
 var GeoJSON = function( geojson, options ){
 
-	var _geometryToGoogleMaps = function( geojsonGeometry, opts, geojsonProperties ){
+	var _geometryToGoogleMaps = function( geojsonGeometry, options, geojsonProperties ){
 		
-		var googleObj;
+		var googleObj, opts = _copy(options);
 		
 		switch ( geojsonGeometry.type ){
 			case "Point":
@@ -176,6 +176,16 @@ var GeoJSON = function( geojson, options ){
 		}
 		return isCCW;
 	};
+  
+  var _copy = function(obj){
+    var newObj = {};
+    for(var i in obj){
+      if(obj.hasOwnProperty(i)){
+        newObj[i] = obj[i];
+      }
+    }
+    return newObj;
+  };
 		
 	var obj;
 	
