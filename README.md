@@ -156,7 +156,7 @@ I've made an attempt to check for properly formatted GeoJSON. If something doesn
 
 It would be in your best interest to first check the returned object to see if it's error free.
 	
-	var myGoogleVector = new GeoJSON(myGeoJSON, options);
+	var myGoogleVector = google.maps.geojson.fromGeoJSON(myGeoJSON, options);
 	
 	if (myGoogleVector.error){
 		// Handle the error.

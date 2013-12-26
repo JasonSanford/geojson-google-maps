@@ -31,7 +31,7 @@
 	</style>
 	
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript" src="../src/GeoJSON.js"></script>
+	<script type="text/javascript" src="../src/from-geojson.js"></script>
 	<script type="text/javascript">
 		var map;
 		currentFeature_or_Features = null;
@@ -339,7 +339,7 @@
 		}
 		function showFeature(geojson, style){
 			clearMap();
-			currentFeature_or_Features = new GeoJSON(geojson, style || null);
+			currentFeature_or_Features = google.maps.geojson.fromGeoJSON(geojson, style || null);
 			if (currentFeature_or_Features.type && currentFeature_or_Features.type == "Error"){
 				document.getElementById("put_geojson_string_here").value = currentFeature_or_Features.message;
 				return;
@@ -372,7 +372,7 @@
 		}
 		function rawGeoJSON(){
 			clearMap();
-			currentFeature_or_Features = new GeoJSON(JSON.parse(document.getElementById("put_geojson_string_here").value));
+			currentFeature_or_Features = google.maps.geojson.fromGeoJSON(JSON.parse(document.getElementById("put_geojson_string_here").value));
 			if (currentFeature_or_Features.length){
 				for (var i = 0; i < currentFeature_or_Features.length; i++){
 					if(currentFeature_or_Features[i].length){
