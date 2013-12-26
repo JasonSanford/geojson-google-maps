@@ -1,3 +1,7 @@
+/**
+ * Converts GeoJSON into Google Maps overlays (shapes)
+ */
+
 (function(){
 
   if(typeof google.maps.geojson === 'undefined') {
