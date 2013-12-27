@@ -77,10 +77,10 @@ var overlayExamples = {
         new google.maps.LatLng(35.042908385949438, -80.662117972448982)
       ],
       [
+        new google.maps.LatLng(35.042285014551399, -80.663660240030611),
         new google.maps.LatLng(35.042180031153971, -80.663801010040396),
         new google.maps.LatLng(35.04185501322739, -80.663477030360489),
-        new google.maps.LatLng(35.041963021011493, -80.663323010340658),
-        new google.maps.LatLng(35.042285014551399, -80.663660240030611)
+        new google.maps.LatLng(35.041963021011493, -80.663323010340658)
       ]
     ]
   }),
