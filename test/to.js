@@ -267,6 +267,5 @@ test("Unsupported google maps feature", function(){
     center: new google.maps.LatLng(-1, 1)
   });
   var geoJson = google.maps.geojson.toGeoJSON(unsupported);
-  console.log(geoJson);
   ok(geoJson.type === 'Error', "Detected an unsupported object type");
 });

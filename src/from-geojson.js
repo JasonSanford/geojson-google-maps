@@ -130,7 +130,7 @@
         var interiorDirection;
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           var path = [];
-          for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
+          for (var j = 0; j < geojsonGeometry.coordinates[i].length-1; j++){
             var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
             path.push(ll);
           }
@@ -167,7 +167,7 @@
           var interiorDirection;
           for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
             var path = [];
-            for (var k = 0; k < geojsonGeometry.coordinates[i][j].length; k++){
+            for (var k = 0; k < geojsonGeometry.coordinates[i][j].length-1; k++){
               var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
               path.push(ll);
             }
