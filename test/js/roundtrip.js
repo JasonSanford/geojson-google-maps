@@ -43,5 +43,5 @@ test("MultiPolygon", function(){
 });
 
 function roundTrip(geoJson){
-  return google.maps.geojson.toGeoJSON(google.maps.geojson.fromGeoJSON(geoJson));
+  return google.maps.geojson.to(google.maps.geojson.from(geoJson));
 };

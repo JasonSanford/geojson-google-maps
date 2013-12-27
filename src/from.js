@@ -8,7 +8,7 @@
     google.maps.geojson = {};
   }
 
-  google.maps.geojson.fromGeoJSON = function( geojson, options ){
+  google.maps.geojson.from = function( geojson, options ){
 
     var obj;
     

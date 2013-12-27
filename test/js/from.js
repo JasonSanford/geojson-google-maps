@@ -1,7 +1,7 @@
 module("GeoJSON -> Google Maps");
 
 test("GeoJSON Point -> google.maps.Marker", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.Point);  
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.Point);  
   var expectedOverlay = overlayExamples.Marker;
   
   ok(convertedOverlay instanceof google.maps.Marker, "Overlay is a Marker");
@@ -9,7 +9,7 @@ test("GeoJSON Point -> google.maps.Marker", function(){
 });
 
 test("GeoJSON MultiPoint -> [google.maps.Marker]", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.MultiPoint);
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.MultiPoint);
   var expectedOverlay = overlayExamples.Markers;
 
   ok(convertedOverlay.length === 2, "Two Markers");
@@ -19,7 +19,7 @@ test("GeoJSON MultiPoint -> [google.maps.Marker]", function(){
 });
 
 test("GeoJSON LineString -> google.maps.Polyline", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.LineString);
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.LineString);
   var expectedOverlay = overlayExamples.Polyline;
 
   ok(convertedOverlay instanceof google.maps.Polyline, "Overlay is a Polyline");
@@ -27,7 +27,7 @@ test("GeoJSON LineString -> google.maps.Polyline", function(){
 });
 
 test("GeoJSON MultiLineString -> [google.maps.Polyline]", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.MultiLineString);
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.MultiLineString);
   var expectedOverlay = overlayExamples.Polylines;
 
   ok(convertedOverlay.length === 2, "Two Polylines");
@@ -37,7 +37,7 @@ test("GeoJSON MultiLineString -> [google.maps.Polyline]", function(){
 });
 
 test("GeoJSON Polygon -> google.maps.Polygon", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.Polygon);
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.Polygon);
   var expectedOverlay = overlayExamples.Polygon;
 
   ok(convertedOverlay instanceof google.maps.Polygon, "Overlay is a Polygon");
@@ -45,7 +45,7 @@ test("GeoJSON Polygon -> google.maps.Polygon", function(){
 });
 
 test("GeoJSON Polygon with hole -> google.maps.Polygon", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.Polygon_hole),
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.Polygon_hole),
       expectedOverlay = overlayExamples.Polygon_hole;
 
   ok(convertedOverlay instanceof google.maps.Polygon, "Overlay is a Polygon");
@@ -53,7 +53,7 @@ test("GeoJSON Polygon with hole -> google.maps.Polygon", function(){
 });
 
 test("GeoJSON MultiPolygon -> [google.maps.Polygon]", function(){
-  var convertedOverlay = google.maps.geojson.fromGeoJSON(geojsonExamples.MultiPolygon),
+  var convertedOverlay = google.maps.geojson.from(geojsonExamples.MultiPolygon),
       expectedOverlay = overlayExamples.Polygons;
       
   for(var i = 0; i < 2; i++){

@@ -2,8 +2,8 @@
   "name": "geoJSON-for-Google-Maps",
   "version": "2.0.0",
   "main": [
-    "src/from-geojson.js",
-    "src/to-geojson.js"
+    "src/from.js",
+    "src/to.js"
   ],
   "ignore": [
     "**/.*",

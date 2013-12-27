@@ -6,7 +6,7 @@ version 2.0
 
 **GeoJSON for Google Maps** enables you to create [Google Maps API v3 overlays](https://developers.google.com/maps/documentation/javascript/reference) from [GeoJSON](http://geojson.org) objects and create GeoJSON objects from Google Maps overlays.
 
-## google.maps.geojson.fromGeoJSON(geojson, [options])
+## google.maps.geojson.from(geojson, [options])
 
 Convert GeoJSON objects into Google Maps overlays. 
 
@@ -16,7 +16,7 @@ Convert GeoJSON objects into Google Maps overlays.
 
 
     // Convert the GeoJSON into a Google Maps Marker
-    var marker = google.maps.geojson.fromGeoJSON(geojson);
+    var marker = google.maps.geojson.from(geojson);
     
     // Add the marker to the map
     marker.setMap(map);
@@ -37,14 +37,14 @@ Convert GeoJSON objects into Google Maps overlays.
 <tr><td>GeometryCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on geometry type)</td></tr>
 </table>
 
-## google.maps.geojson.toGeoJSON(overlays)
+## google.maps.geojson.to(overlays)
 
 Convert Google Maps overlays into GeoJSON objects.
 
 **overlays** - An array of Google Maps overlays. Only Point, Polyline, and Polygon are supported.
 
     // Convert Google Maps polygon to a GeoJSON Polygon
-    var geojson = google.maps.geojson.toGeoJSON(polygon);
+    var geojson = google.maps.geojson.to(polygon);
 
 ### Conversions
 
@@ -61,9 +61,9 @@ Convert Google Maps overlays into GeoJSON objects.
 
 ## Error Handling
 
-`fromGeoJSON` checks for properly formatted GeoJSON. 
+`from` checks for properly formatted GeoJSON. 
 
-`toGeoJSON` returns an error object for unsupported Google Maps Overlay types.
+`to` returns an error object for unsupported Google Maps Overlay types.
 
     {
       "type": "Error",
@@ -72,7 +72,7 @@ Convert Google Maps overlays into GeoJSON objects.
 
 It would be in your best interest to first check the returned object to see if it's error free.
   
-    var overlay = google.maps.geojson.fromGeoJSON(myGeoJSON, options);
+    var overlay = google.maps.geojson.from(myGeoJSON, options);
   
     if (overlay.type === "Error"){
       // Handle the error.

@@ -1,43 +1,43 @@
 module("Google Maps -> GeoJSON");
 
 test("google.maps.Marker -> GeoJSON Point", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Marker);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Marker);
   var expectedGeoJSON = geojsonExamples.Point;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("[google.maps.Marker] -> GeoJSON MultiPoint", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Markers);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Markers);
   var expectedGeoJSON = geojsonExamples.MultiPoint;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("google.maps.Polyline -> GeoJSON LineString", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Polyline);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Polyline);
   var expectedGeoJSON = geojsonExamples.LineString;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("[google.maps.Polyline] -> GeoJSON LineString", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Polylines);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Polylines);
   var expectedGeoJSON = geojsonExamples.MultiLineString;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("google.maps.Polygon with one path -> GeoJSON Polygon", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Polygon);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Polygon);
   var expectedGeoJSON = geojsonExamples.Polygon;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("google.maps.Polygon with two paths -> GeoJSON Polygon", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Polygon_hole);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Polygon_hole);
   var expectedGeoJSON = geojsonExamples.Polygon_hole;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
 test("[google.maps.Polygon] with one path -> GeoJSON Polygon", function(){
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON(overlayExamples.Polygons);
+  var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Polygons);
   var expectedGeoJSON = geojsonExamples.MultiPolygon;
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
@@ -62,7 +62,7 @@ test("multiple overlays -> GeoJSON GeometryCollection", function(){
       new google.maps.LatLng(0, 1)
     ]
   });
-  var convertedGeoJSON = google.maps.geojson.toGeoJSON([marker, polyline, polygon]);
+  var convertedGeoJSON = google.maps.geojson.to([marker, polyline, polygon]);
   var expectedGeoJSON = {
     "type": "GeometryCollection",
     "geometries": [
@@ -99,6 +99,6 @@ test("Unsupported google maps feature", function(){
     radius: 5,
     center: new google.maps.LatLng(-1, 1)
   });
-  var geoJson = google.maps.geojson.toGeoJSON(unsupported);
+  var geoJson = google.maps.geojson.to(unsupported);
   ok(geoJson.type === 'Error', "Detected an unsupported object type");
 });

@@ -8,7 +8,7 @@
     google.maps.geojson = {};
   }
 
-  google.maps.geojson.toGeoJSON = function(overlays){
+  google.maps.geojson.to = function(overlays){
     
     // Array of overlays
     if(_isArray(overlays)){
