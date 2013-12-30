@@ -10,6 +10,12 @@
 
   google.maps.geojson.to = function(overlays){
     
+    // If an array of overlays was given and it's
+    // length is 1 then distill to just the overlay
+    if(_isArray(overlays) && overlays.length === 1){
+      overlays = overlays[0];
+    }
+    
     // Array of overlays
     if(_isArray(overlays)){
       

@@ -6,6 +6,12 @@ test("google.maps.Marker -> GeoJSON Point", function(){
   geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
 });
 
+test("[google.maps.Marker] length 1 -> GeoJSON Point", function(){
+  var convertedGeoJSON = google.maps.geojson.to([overlayExamples.Marker]);
+  var expectedGeoJSON = geojsonExamples.Point;
+  geoJSONCompare(convertedGeoJSON, expectedGeoJSON);
+});
+
 test("[google.maps.Marker] -> GeoJSON MultiPoint", function(){
   var convertedGeoJSON = google.maps.geojson.to(overlayExamples.Markers);
   var expectedGeoJSON = geojsonExamples.MultiPoint;

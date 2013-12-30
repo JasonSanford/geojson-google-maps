@@ -26,22 +26,22 @@ Convert GeoJSON objects into Google Maps overlays.
 
 <table>
 <tr><th>GeoJSON</th><th>Google Maps</th></tr>
-<tr><td>Point</td><td>google.maps.Point</td></tr>
+<tr><td>Point</td><td>google.maps.Marker</td></tr>
 <tr><td>LineString</td><td>google.maps.Polyline</td></tr>
 <tr><td>Polygon</td><td>google.maps.Polygon</td></tr>
-<tr><td>MultiPoint</td><td>Array of google.maps.Point</td></tr>
+<tr><td>MultiPoint</td><td>Array of google.maps.Marker</td></tr>
 <tr><td>MultiLineString</td><td>Array of google.maps.Polyline</td></tr>
 <tr><td>MultiPolygon</td><td>Array of google.maps.Polygon</td></tr>
-<tr><td>Feature</td><td>google.maps.[Point,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
-<tr><td>FeatureCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
-<tr><td>GeometryCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on geometry type)</td></tr>
+<tr><td>Feature</td><td>google.maps.[Marker,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
+<tr><td>FeatureCollection</td><td>Array of google.maps.[Marker,Polyline,Polygon] (depends on Feature geometry type)</td></tr>
+<tr><td>GeometryCollection</td><td>Array of google.maps.[Marker,Polyline,Polygon] (depends on geometry type)</td></tr>
 </table>
 
 ## google.maps.geojson.to(overlays)
 
-Convert Google Maps overlays into GeoJSON objects.
+Convert Google Maps overlays into the most simple GeoJSON object possible.
 
-**overlays** - An array of Google Maps overlays. Only Point, Polyline, and Polygon are supported.
+**overlays** - An array of Google Maps overlays. Only Marker, Polyline, and Polygon are supported.
 
     // Convert Google Maps polygon to a GeoJSON Polygon
     var geojson = google.maps.geojson.to(polygon);
@@ -50,14 +50,18 @@ Convert Google Maps overlays into GeoJSON objects.
 
 <table>
 <tr><th>Google Maps</th><th>GeoJSON</th></tr>
-<tr><td>google.maps.Point</td><td>Point</td></tr>
+<tr><td>google.maps.Marker</td><td>Point</td></tr>
 <tr><td>google.maps.Polyline</td><td>LineString</td></tr>
 <tr><td>google.maps.Polygon</td><td>Polygon</td></tr>
-<tr><td>Array of google.maps.Point</td><td>MultiPoint</td></tr>
+<tr><td>Array of google.maps.Marker</td><td>MultiPoint</td></tr>
 <tr><td>Array of google.maps.Polyline</td><td>MultiLineString</td></tr>
 <tr><td>Array of google.maps.Polygon</td><td>MultiPolygon</td></tr>
 <tr><td>Mixed array of supported types</td><td>GeometryCollection</td></tr>
 </table>
+
+If an array containing only one Google Maps overlay is given then it will be distilled 
+down to the most simple GeoJSON object possible. For example, if given an array with
+just one google.maps.Marker, a GeoJSON Point will be returned instead of a MultiPoint.
 
 ## Error Handling
 
