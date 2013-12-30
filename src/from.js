@@ -129,6 +129,13 @@
         var exteriorDirection;
         var interiorDirection;
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
+          // GeoJSON spec demands that the last point in a polygon ring matches the first point
+          var firstPoint = geojsonGeometry.coordinates[i][0],
+              lastPoint = geojsonGeometry.coordinates[i][geojsonGeometry.coordinates[i].length-1];
+          if(firstPoint[0] !== lastPoint[0] && firstPoint[1] !== lastPoint[1]){
+            googleObj = _error("First and last points of polygon ring " + (i + 1) + " do not match");
+            break;
+          }
           var path = [];
           for (var j = 0; j < geojsonGeometry.coordinates[i].length-1; j++){
             var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
@@ -166,6 +173,13 @@
           var exteriorDirection;
           var interiorDirection;
           for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
+            // GeoJSON spec demands that the last point in a polygon ring matches the first point
+            var firstPoint = geojsonGeometry.coordinates[i][j][0],
+                lastPoint = geojsonGeometry.coordinates[i][j][geojsonGeometry.coordinates[i][j].length-1];
+            if(firstPoint[0] !== lastPoint[0] && firstPoint[1] !== lastPoint[1]){
+              googleObj = _error("First and last points of multipolygon ring " + (j+1) + " in polygon " + (i+1) + " do not match");
+              break;
+            }
             var path = [];
             for (var k = 0; k < geojsonGeometry.coordinates[i][j].length-1; k++){
               var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
