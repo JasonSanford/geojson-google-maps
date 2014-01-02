@@ -405,7 +405,7 @@
 				}
 				content += "</div>";
 				infowindow.setContent(content);
-				infowindow.position = event.latLng;
+				infowindow.setPosition(event.latLng);
 				infowindow.open(map);
 			});
 		}
