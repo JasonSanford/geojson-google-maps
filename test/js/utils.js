@@ -6,8 +6,8 @@ QUnit.assert.polygonsEqual = function(testPolygon, expectedPolygon, message){
 
   QUnit.push(testPaths.getLength() === expectedPaths.getLength(), testPaths.getLength(), expectedPaths.getLength(), "Polygon has correct number of paths");
   for(var i = 0; i < testPaths.getLength(); i++){
-    QUnit.push(testPaths.getAt(i).getLength() === expectedPaths.getAt(i).getLength(), testPaths.getAt(i).getLength(), expectedPaths.getAt(i).getLength(), "Paths " + i + " are the same length");
-    deepEqual(testPaths.getAt(i), expectedPaths.getAt(i), "Paths " + i + " are equal");
+    QUnit.push(testPaths.getAt(i).getLength() === expectedPaths.getAt(i).getLength(), testPaths.getAt(i).getLength(), expectedPaths.getAt(i).getLength(), "Paths " + (i+1) + " are the same length");
+    deepEqual(testPaths.getAt(i), expectedPaths.getAt(i), "Paths " + (i+1) + " are equal");
   }
 };
 

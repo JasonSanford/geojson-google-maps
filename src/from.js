@@ -161,10 +161,10 @@
         path.push(_latlng(coordinates[i][j]));
       }
       if(!i){
-        exteriorDirection = _ccw(path);
+        exteriorDirection = _cw(path);
         paths.push(path);
       }else if(i == 1){
-        interiorDirection = _ccw(path);
+        interiorDirection = _cw(path);
         if(exteriorDirection == interiorDirection){
           paths.push(path.reverse());
         }else{
@@ -220,17 +220,17 @@
   };
   
   /**
-   * Determines whether a given path is counterclockwise.
+   * Determines whether a given path is clockwise.
    * It's exposed externally so that we can unit test it.
    */
-  var _ccw = google.maps.geojson.from._ccw = function(path){
-    return _area(path) <= 0;
+  var _cw = google.maps.geojson.from._cw = function(path){
+    return _area(path) >= 0;
   };
   
   /**
    * Calculates the signed area of a path. Used by _ccw
    */
-  function _area(path){
+  var _area = google.maps.geojson.from._area = function(path){
     var a = 0;
     var i;
     for(i = 0; i < path.length-1; i++){
