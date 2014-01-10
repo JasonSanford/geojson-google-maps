@@ -237,7 +237,9 @@
     return isCCW;
   };
 
-}());/**
+}());
+
+/**
  * Converts Google Maps overlays into GeoJSON
  */
 
