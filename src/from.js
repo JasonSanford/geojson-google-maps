@@ -67,149 +67,40 @@
    */
   var _geometryToGoogleMaps = function( geojsonGeometry, options, geojsonProperties ){
     
-    var googleObj, opts = _copy(options);
+    var googleObj;
     
-    switch ( geojsonGeometry.type ){
+    switch(geojsonGeometry.type){
+      
       case "Point":
-        opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
-        googleObj = new google.maps.Marker(opts);
-        if (geojsonProperties) {
-          googleObj.set("geojsonProperties", geojsonProperties);
-        }
+        googleObj = _marker(geojsonGeometry.coordinates);
         break;
         
       case "MultiPoint":
         googleObj = [];
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
-          opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
-          googleObj.push(new google.maps.Marker(opts));
-        }
-        if (geojsonProperties) {
-          for (var k = 0; k < googleObj.length; k++){
-            googleObj[k].set("geojsonProperties", geojsonProperties);
-          }
+          googleObj.push(_marker(geojsonGeometry.coordinates[i]));
         }
         break;
         
       case "LineString":
-        var path = [];
-        for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
-          var coord = geojsonGeometry.coordinates[i];
-          var ll = new google.maps.LatLng(coord[1], coord[0]);
-          path.push(ll);
-        }
-        opts.path = path;
-        googleObj = new google.maps.Polyline(opts);
-        if (geojsonProperties) {
-          googleObj.set("geojsonProperties", geojsonProperties);
-        }
+        googleObj = _polyline(geojsonGeometry.coordinates);
         break;
         
       case "MultiLineString":
         googleObj = [];
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
-          var path = [];
-          for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
-            var coord = geojsonGeometry.coordinates[i][j];
-            var ll = new google.maps.LatLng(coord[1], coord[0]);
-            path.push(ll);
-          }
-          opts.path = path;
-          googleObj.push(new google.maps.Polyline(opts));
-        }
-        if (geojsonProperties) {
-          for (var k = 0; k < googleObj.length; k++){
-            googleObj[k].set("geojsonProperties", geojsonProperties);
-          }
+          googleObj.push(_polyline(geojsonGeometry.coordinates[i]));
         }
         break;
         
       case "Polygon":
-        var paths = [];
-        var exteriorDirection;
-        var interiorDirection;
-        for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
-          // GeoJSON spec demands that the last point in a polygon ring matches the first point
-          var firstPoint = geojsonGeometry.coordinates[i][0],
-              lastPoint = geojsonGeometry.coordinates[i][geojsonGeometry.coordinates[i].length-1];
-          if(firstPoint[0] !== lastPoint[0] && firstPoint[1] !== lastPoint[1]){
-            googleObj = _error("First and last points of polygon ring " + (i + 1) + " do not match");
-            break;
-          }
-          var path = [];
-          for (var j = 0; j < geojsonGeometry.coordinates[i].length-1; j++){
-            var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
-            path.push(ll);
-          }
-          if(!i){
-            exteriorDirection = _ccw(path);
-            paths.push(path);
-          }else if(i == 1){
-            interiorDirection = _ccw(path);
-            if(exteriorDirection == interiorDirection){
-              paths.push(path.reverse());
-            }else{
-              paths.push(path);
-            }
-          }else{
-            if(exteriorDirection == interiorDirection){
-              paths.push(path.reverse());
-            }else{
-              paths.push(path);
-            }
-          }
-        }
-        opts.paths = paths;
-        googleObj = new google.maps.Polygon(opts);
-        if (geojsonProperties) {
-          googleObj.set("geojsonProperties", geojsonProperties);
-        }
+        googleObj = _polygon(geojsonGeometry.coordinates);
         break;
         
       case "MultiPolygon":
         googleObj = [];
-        for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
-          var paths = [];
-          var exteriorDirection;
-          var interiorDirection;
-          for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
-            // GeoJSON spec demands that the last point in a polygon ring matches the first point
-            var firstPoint = geojsonGeometry.coordinates[i][j][0],
-                lastPoint = geojsonGeometry.coordinates[i][j][geojsonGeometry.coordinates[i][j].length-1];
-            if(firstPoint[0] !== lastPoint[0] && firstPoint[1] !== lastPoint[1]){
-              googleObj = _error("First and last points of multipolygon ring " + (j+1) + " in polygon " + (i+1) + " do not match");
-              break;
-            }
-            var path = [];
-            for (var k = 0; k < geojsonGeometry.coordinates[i][j].length-1; k++){
-              var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
-              path.push(ll);
-            }
-            if(!j){
-              exteriorDirection = _ccw(path);
-              paths.push(path);
-            }else if(j == 1){
-              interiorDirection = _ccw(path);
-              if(exteriorDirection == interiorDirection){
-                paths.push(path.reverse());
-              }else{
-                paths.push(path);
-              }
-            }else{
-              if(exteriorDirection == interiorDirection){
-                paths.push(path.reverse());
-              }else{
-                paths.push(path);
-              }
-            }
-          }
-          opts.paths = paths;
-          googleObj.push(new google.maps.Polygon(opts));
-        }
-        if (geojsonProperties) {
-          for (var k = 0; k < googleObj.length; k++){
-            googleObj[k].set("geojsonProperties", geojsonProperties);
-          }
+        for(var i = 0; i < geojsonGeometry.coordinates.length; i++){
+          googleObj.push(_polygon(geojsonGeometry.coordinates[i]));
         }
         break;
         
@@ -228,14 +119,98 @@
         googleObj = _error("Invalid GeoJSON object: Geometry object must be one of \"Point\", \"LineString\", \"Polygon\" or \"MultiPolygon\".");
     }
     
+    // Set options and properties
+    if(Object.prototype.toString.call(googleObj) === '[object Array]'){
+      for(var i = 0; i < googleObj.length; i++){
+        _setOptionsProperties(googleObj[i], options, geojsonProperties);
+      }
+    } else {
+      _setOptionsProperties(googleObj, options, geojsonProperties);
+    }
+    
     return googleObj;
     
+  };
+  
+  function _setOptionsProperties(googleObj, options, properties){
+    if(options){
+      googleObj.setOptions(options);
+    }
+    if(properties){
+     googleObj.set("geojsonProperties", properties);
+    }
+  };
+  
+  /**
+   * Creates a Google Maps Polygon from the coordinates list of
+   * a GeoJSON Polygon
+   */
+  function _polygon(coordinates){
+    var paths = [];
+    var exteriorDirection;
+    var interiorDirection;
+    for(var i = 0; i < coordinates.length; i++){
+      // GeoJSON spec demands that the last point in a polygon ring matches the first point
+      var firstPoint = coordinates[i][0],
+          lastPoint = coordinates[i][coordinates[i].length-1];
+      if(firstPoint[0] !== lastPoint[0] && firstPoint[1] !== lastPoint[1]){
+        return _error("First and last points of polygon ring " + (i + 1) + " do not match");
+      }
+      var path = [];
+      for (var j = 0; j < coordinates[i].length-1; j++){
+        path.push(_latlng(coordinates[i][j]));
+      }
+      if(!i){
+        exteriorDirection = _ccw(path);
+        paths.push(path);
+      }else if(i == 1){
+        interiorDirection = _ccw(path);
+        if(exteriorDirection == interiorDirection){
+          paths.push(path.reverse());
+        }else{
+          paths.push(path);
+        }
+      }else{
+        if(exteriorDirection == interiorDirection){
+          paths.push(path.reverse());
+        }else{
+          paths.push(path);
+        }
+      }
+    }
+    return new google.maps.Polygon({paths: paths});
+  };
+  
+  /**
+   * Creates a Google Maps Polyline from a list of GeoJSON coordinate
+   * pairs such as from a LineString
+   */
+  function _polyline(coordinates){
+    var path = [];
+    for(var i = 0; i < coordinates.length; i++){
+      path.push(_latlng(coordinates[i]));
+    }
+    return new google.maps.Polyline({path: path});
+  };
+  
+  /**
+   * Creates a Google Maps Marker from a GeoJSON coordinate pair
+   */
+  function _marker(coordinates){
+    return new google.maps.Marker({position: _latlng(coordinates)});
+  };
+  
+  /**
+   * Creates a Google Maps LatLng object from a pair of GeoJSON coordinates
+   */
+  function _latlng(coordinates){
+    return new google.maps.LatLng(coordinates[1], coordinates[0]);
   };
   
   /**
    * Formats an error object
    */
-  var _error = function( message ){
+  function _error(message){
   
     return {
       type: "Error",
@@ -247,7 +222,7 @@
   /**
    * Determines whether a given path is counterclockwise
    */
-  var _ccw = function( path ){
+  function _ccw(path){
     var isCCW;
     var a = 0;
     for (var i = 0; i < path.length-2; i++){
@@ -260,19 +235,6 @@
       isCCW = false;
     }
     return isCCW;
-  };
-  
-  /**
-   * Returns a non-recursive copy of the given object
-   */
-  var _copy = function(obj){
-    var newObj = {};
-    for(var i in obj){
-      if(obj.hasOwnProperty(i)){
-        newObj[i] = obj[i];
-      }
-    }
-    return newObj;
   };
 
 }());
