@@ -234,9 +234,9 @@
     var a = 0;
     var i;
     for(i = 0; i < path.length-1; i++){
-      a += (path[i+1].lat() + path[i].lat()) * (path[i+1].lng() - path[i].lng());
+      a += ((path[i+1].lat() + path[i].lat()) * (path[i+1].lng() - path[i].lng()));
     }
-    a += (path[i].lat() + path[0].lat()) * (path[i].lng() - path[0].lng());
+    a += (path[0].lat() + path[i].lat()) * (path[0].lng() - path[i].lng());
     return a;
   };
 

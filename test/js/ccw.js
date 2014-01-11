@@ -47,15 +47,18 @@ for(var i = 0; i < rings.length; i++){
  */
 function ringToPath(ring){
   var path = [];
-  for(var i = 0; i < ring.length; i++){
+  // Don't add last point
+  for(var i = 0; i < ring.length-1; i++){
     path.push(new google.maps.LatLng(ring[i][1], ring[i][0]));
   }
   return path;
 };
 
 /**
- * Uses a google function to compute whether a path is cw or not
+ * Uses a google function to compute whether a path is cw or not.
+ * The sign will be opposite our internal function because of
+ * the inverted y-axis in canvas.
  */
 function googleCW(path){
-  return google.maps.geometry.spherical.computeSignedArea(path) >= 0;
+  return google.maps.geometry.spherical.computeSignedArea(path) < 0;
 };
