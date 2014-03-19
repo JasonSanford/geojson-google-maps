@@ -1,5 +1,11 @@
 # GeoJSON to Google Maps
+
+## **Read This! **
+
+Google Maps now has [proper support for GeoJSON](https://developers.google.com/maps/documentation/javascript/examples/layer-data-simple), so you should probably use that instead.
+
 ### version 1.0
+
 ### Jason Sanford
 
 #### Overview
