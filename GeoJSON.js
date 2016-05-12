@@ -163,18 +163,15 @@ var GeoJSON = function( geojson, options ){
 	};
 
 	var _ccw = function( path ){
-		var isCCW;
-		var a = 0;
-		for (var i = 0; i < path.length-2; i++){
-			a += ((path[i+1].lat() - path[i].lat()) * (path[i+2].lng() - path[i].lng()) - (path[i+2].lat() - path[i].lat()) * (path[i+1].lng() - path[i].lng()));
+		var aux = 0.0;
+		var a = path[path.length-1];
+		for (var i = 0; i < path.length; i++)
+		{
+			var b = path[i];
+			aux += (b.lat() - a.lat()) * (b.lng() + a.lng());
+			a = b;
 		}
-		if(a > 0){
-			isCCW = true;
-		}
-		else{
-			isCCW = false;
-		}
-		return isCCW;
+		return aux > 0;
 	};
   
   var _copy = function(obj){
